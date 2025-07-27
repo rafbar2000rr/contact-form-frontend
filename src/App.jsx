@@ -38,6 +38,31 @@ export default function App() {
   //   setContacts(prev => [...prev, newContact]);
   // };
 
+// const handleAdd = async (newContact) => {
+//   try {
+//     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(newContact)
+//     });
+
+//     if (!res.ok) {
+//       throw new Error('Error al guardar el contacto');
+//     }
+
+//     const savedContact = await res.json();
+//     setContacts(prev => [...prev, savedContact]);
+//     setSuccessMessage('¡Contacto guardado con éxito!');
+//     setErrorMessage('');
+
+//     setTimeout(() => setSuccessMessage(''), 3000);
+//   } catch (err) {
+//     setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
+//     setSuccessMessage('');
+
+//     setTimeout(() => setErrorMessage(''), 3000);
+//   }
+// };
 const handleAdd = async (newContact) => {
   try {
     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
@@ -50,8 +75,9 @@ const handleAdd = async (newContact) => {
       throw new Error('Error al guardar el contacto');
     }
 
-    const savedContact = await res.json();
-    setContacts(prev => [...prev, savedContact]);
+    await res.json();
+    await loadContacts(); // 🔁 recarga toda la lista
+
     setSuccessMessage('¡Contacto guardado con éxito!');
     setErrorMessage('');
 
