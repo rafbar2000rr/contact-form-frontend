@@ -12,15 +12,21 @@ export default function App() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const loadContacts = async () => {
-    const res = await fetch('https://contact-form-backend.onrender.com/contacts');
-    const data = await res.json();
-    setContacts(data);
-  };
-
   useEffect(() => {
     loadContacts();
   }, []);
+
+  const loadContacts = async () => {
+    try {
+      const res = await fetch('https://contact-form-backend.onrender.com/api/contacts'); // usa tu URL real
+      const data = await res.json();
+      setContacts(data);
+    } catch (err) {
+      console.error('Error al cargar contactos:', err);
+    }
+  };
+
+  
 
   // useEffect(() => {
   //   fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts')
