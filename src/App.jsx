@@ -13,7 +13,7 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/contacts')
+    fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts')
       .then(res => res.json())
       .then(data => setContacts(data));
   }, []);
@@ -24,7 +24,7 @@ export default function App() {
 
 const handleAdd = async (newContact) => {
   try {
-    const res = await fetch('http://localhost:3000/api/contacts', {
+    const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newContact)
@@ -52,7 +52,7 @@ const handleAdd = async (newContact) => {
   
 const handleDelete = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/contacts/${id}`, {
+    const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${id}`, {
       method: 'DELETE'
     });
 
@@ -84,7 +84,7 @@ const handleEdit = async (contact) => {
   const updated = { ...contact, name: newName.trim() };
 
   try {
-    const res = await fetch(`http://localhost:3000/api/contacts/${contact._id}`, {
+    const res = await fetch(`https://contact-form-backend-i5ma.onrender.comcdddd/api/contacts/${contact._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updated)
