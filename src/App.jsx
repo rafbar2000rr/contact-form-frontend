@@ -12,11 +12,21 @@ export default function App() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const loadContacts = async () => {
+    const res = await fetch('https://contact-form-backend.onrender.com/contacts');
+    const data = await res.json();
+    setContacts(data);
+  };
+
   useEffect(() => {
-    fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts')
-      .then(res => res.json())
-      .then(data => setContacts(data));
+    loadContacts();
   }, []);
+
+  // useEffect(() => {
+  //   fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts')
+  //     .then(res => res.json())
+  //     .then(data => setContacts(data));
+  // }, []);
 
   // const handleAdd = (newContact) => {
   //   setContacts(prev => [...prev, newContact]);
@@ -126,3 +136,46 @@ const handleEdit = async (contact) => {
   );
 }
 
+import { useEffect, useState } from 'react';
+import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
+
+export default function App() {
+  const [contacts, setContacts] = useState([]);
+
+  // Cargar contactos desde el backend
+  const loadContacts = async () => {
+    const res = await fetch('https://contact-form-backend-.../contacts');
+    const data = await res.json();
+    setContacts(data);
+  };
+
+  useEffect(() => {
+    loadContacts();
+  }, []);
+
+  // Agregar nuevo contacto y recargar la lista
+  const addContact = async (contact) => {
+    await fetch('https://contact-form-backend-.../contacts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(contact),
+    });
+    loadContacts(); // recargar contactos
+  };
+
+  const deleteContact = async (id) => {
+    await fetch(`https://contact-form-backend-.../contacts/${id}`, {
+      method: 'DELETE',
+    });
+    loadContacts();
+  };
+
+  return (
+    <div>
+      <h1>Contactos</h1>
+      <ContactForm onAdd={addContact} />
+      <ContactList contacts={contacts} onDelete={deleteContact} />
+    </div>
+  );
+}
