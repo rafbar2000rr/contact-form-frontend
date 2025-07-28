@@ -112,9 +112,9 @@ const handleAdd = async (e) => {
 
     const savedContact = await res.json();
     console.log('Respuesta del backend:', savedContact); // 👈 para depurar
-
-    setFormData({ name: '', email: '' });
     loadContacts();
+    setFormData({ name: '', email: '' });
+    
     // Espera medio segundo y recarga la lista
     // setTimeout(() => {
     //   loadContacts();
