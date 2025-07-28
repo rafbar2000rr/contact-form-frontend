@@ -127,7 +127,7 @@ const handleAdd = async (newContact) => {
     setSuccessMessage('¡Contacto guardado con éxito!');
     setErrorMessage('');
 
-    setTimeout(() => setSuccessMessage(''), 3000);
+    // setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
     setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
     setSuccessMessage('');
