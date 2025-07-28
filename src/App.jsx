@@ -156,7 +156,7 @@ const handleDelete = async (id) => {
   } catch (err) {
     setErrorMessage('No se pudo eliminar el contacto.');
     setSuccessMessage('');
-
+    
     setTimeout(() => setErrorMessage(''), 3000);
   }
 };
@@ -207,7 +207,7 @@ const handleEdit = async (contact) => {
       <div className={`message error-message ${errorMessage ? 'show' : ''}`}>
         {errorMessage}
       </div>
-
+      <p>Este es un cambio de prueba</p>
       <ContactForm onAdd={handleAdd} />
       <ContactList contacts={contacts} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
