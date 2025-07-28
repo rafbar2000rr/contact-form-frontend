@@ -66,36 +66,6 @@ useEffect(() => {
 //   }
 // };
 
-// const handleAdd = async (newContact) => {
-//   try {
-//     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify(newContact)
-//     });
-
-//     if (!res.ok) {
-//       throw new Error('Error al guardar el contacto');
-//     }
-//     const savedContact = await res.json();
-//     console.log('Respuesta del backend:', savedContact);
-//     // await res.json();
-
-
-
-//     await loadContacts(); // 🔁 recarga toda la lista
-
-//     setSuccessMessage('¡Contacto guardado con éxito!');
-//     setErrorMessage('');
-
-//     setTimeout(() => setSuccessMessage(''), 3000);
-//   } catch (err) {
-//     setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
-//     setSuccessMessage('');
-
-//     setTimeout(() => setErrorMessage(''), 3000);
-//   }
-// };
 
 // const handleAdd = async (e) => {
 //   e.preventDefault();
@@ -225,7 +195,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    loadContacts();
+    await loadContacts();
   }, []);
 
   // Agregar nuevo contacto y recargar la lista
@@ -235,14 +205,14 @@ export default function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(contact),
     });
-    loadContacts(); // recargar contactos
+    await loadContacts(); // recargar contactos
   };
 
   const deleteContact = async (id) => {
     await fetch(`https://contact-form-backend-.../contacts/${id}`, {
       method: 'DELETE',
     });
-    loadContacts();
+    await loadContacts();
   };
 
   return (
@@ -519,7 +489,7 @@ const handleAdd = async (newContact) => {
     }
     const savedContact = await res.json();
     console.log('Respuesta del backend:', savedContact);
-    // await res.json();
+    //await res.json();
 
 
 
