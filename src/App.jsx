@@ -90,7 +90,9 @@ const handleEdit = async (contact) => {
   const updated = { ...contact, name: newName.trim() };
 
   try {
-    const res = await fetch(`https://contact-form-backend-i5ma.onrender.comcdddd/api/contacts/${contact._id}`, {
+    const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${contact._id}`, {
+
+
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updated)
