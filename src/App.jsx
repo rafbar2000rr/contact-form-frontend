@@ -122,7 +122,7 @@ const handleAdd = async (newContact) => {
     // 🕒 Esperar 1 segundo antes de recargar la lista
     setTimeout(() => {
       loadContacts(); // 🔁 Recarga toda la lista después de 1 seg
-    }, 5000);
+    }, 1000);
 
     setSuccessMessage('¡Contacto guardado con éxito!');
     setErrorMessage('');
