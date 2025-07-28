@@ -30,6 +30,7 @@ useEffect(() => {
   }, []);
 
 
+
   // useEffect(() => {
   //   fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts')
   //     .then(res => res.json())
@@ -103,7 +104,40 @@ useEffect(() => {
 //     // 👇 Volvemos a cargar los contactos después de agregar uno nuevo
 //     await fetchContacts();
 //   };
+const handleAdd = async (newContact) => {
+  try {
+    const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newContact)
+    });
+
+    if (!res.ok) {
+      throw new Error('Error al guardar el contacto');
+    }
+
+    const savedContact = await res.json();
+    console.log('Respuesta del backend:', savedContact);
+
+    // 🕒 Esperar 1 segundo antes de recargar la lista
+    setTimeout(() => {
+      loadContacts(); // 🔁 Recarga toda la lista después de 1 seg
+    }, 5000);
+
+    setSuccessMessage('¡Contacto guardado con éxito!');
+    setErrorMessage('');
+
+    setTimeout(() => setSuccessMessage(''), 3000);
+  } catch (err) {
+    setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
+    setSuccessMessage('');
+
+    setTimeout(() => setErrorMessage(''), 3000);
+  }
+};
+
   
+
 const handleDelete = async (id) => {
   try {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${id}`, {
@@ -476,36 +510,6 @@ const handleEdit = async (contact) => {
 // //   }
 // // };
 
-const handleAdd = async (newContact) => {
-  try {
-    const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newContact)
-    });
-
-    if (!res.ok) {
-      throw new Error('Error al guardar el contacto');
-    }
-    const savedContact = await res.json();
-    console.log('Respuesta del backend:', savedContact);
-    //await res.json();
-
-
-
-    await loadContacts(); // 🔁 recarga toda la lista
-
-    setSuccessMessage('¡Contacto guardado con éxito!');
-    setErrorMessage('');
-
-    setTimeout(() => setSuccessMessage(''), 3000);
-  } catch (err) {
-    setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
-    setSuccessMessage('');
-
-    setTimeout(() => setErrorMessage(''), 3000);
-  }
-};
 
 // const handleAdd = async (e) => {
 //   e.preventDefault();
