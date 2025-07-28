@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
@@ -12,9 +11,7 @@ export default function App() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    loadContacts();
-  }, []);
+  
 
   
 
@@ -28,7 +25,9 @@ export default function App() {
     console.error('Error cargando contactos:', error);
   }
 };
-
+useEffect(() => {
+    loadContacts();
+  }, []);
 
 
   // useEffect(() => {
@@ -98,33 +97,42 @@ export default function App() {
 //   }
 // };
 
-const handleAdd = async (e) => {
-  e.preventDefault();
+// const handleAdd = async (e) => {
+//   e.preventDefault();
 
-  if (!formData.name || !formData.email) return;
+//   if (!formData.name || !formData.email) return;
 
-  try {
-    const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+//   try {
+//     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(formData),
+//     });
 
-    const savedContact = await res.json();
-    console.log('Respuesta del backend:', savedContact); // 👈 para depurar
-    loadContacts();
-    setFormData({ name: '', email: '' });
+//     const savedContact = await res.json();
+//     console.log('Respuesta del backend:', savedContact); // 👈 para depurar
+//     loadContacts();
+//     setFormData({ name: '', email: '' });
     
     // Espera medio segundo y recarga la lista
     // setTimeout(() => {
     //   loadContacts();
     // }, 500);
 
-  } catch (error) {
-    console.error('Error al guardar contacto:', error);
-  }
-};
+//   } catch (error) {
+//     console.error('Error al guardar contacto:', error);
+//   }
+// };
+// const handleAdd = async (formData) => {
+//     await fetch('http://localhost:5000/contactos', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(formData),
+//     });
 
+//     // 👇 Volvemos a cargar los contactos después de agregar uno nuevo
+//     await fetchContacts();
+//   };
   
 const handleDelete = async (id) => {
   try {
@@ -498,36 +506,36 @@ export default function App() {
 // //   }
 // // };
 
-// // const handleAdd = async (newContact) => {
-// //   try {
-// //     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
-// //       method: 'POST',
-// //       headers: { 'Content-Type': 'application/json' },
-// //       body: JSON.stringify(newContact)
-// //     });
+const handleAdd = async (newContact) => {
+  try {
+    const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newContact)
+    });
 
-// //     if (!res.ok) {
-// //       throw new Error('Error al guardar el contacto');
-// //     }
-// //     const savedContact = await res.json();
-// //     console.log('Respuesta del backend:', savedContact);
-// //     // await res.json();
+    if (!res.ok) {
+      throw new Error('Error al guardar el contacto');
+    }
+    const savedContact = await res.json();
+    console.log('Respuesta del backend:', savedContact);
+    // await res.json();
 
 
 
-// //     await loadContacts(); // 🔁 recarga toda la lista
+    await loadContacts(); // 🔁 recarga toda la lista
 
-// //     setSuccessMessage('¡Contacto guardado con éxito!');
-// //     setErrorMessage('');
+    setSuccessMessage('¡Contacto guardado con éxito!');
+    setErrorMessage('');
 
-// //     setTimeout(() => setSuccessMessage(''), 3000);
-// //   } catch (err) {
-// //     setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
-// //     setSuccessMessage('');
+    setTimeout(() => setSuccessMessage(''), 3000);
+  } catch (err) {
+    setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
+    setSuccessMessage('');
 
-// //     setTimeout(() => setErrorMessage(''), 3000);
-// //   }
-// // };
+    setTimeout(() => setErrorMessage(''), 3000);
+  }
+};
 
 // const handleAdd = async (e) => {
 //   e.preventDefault();
