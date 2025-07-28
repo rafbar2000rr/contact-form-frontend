@@ -18,7 +18,7 @@ export default function ContactForm({ onAdd }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className = "form" onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Nombre"
