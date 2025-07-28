@@ -205,7 +205,7 @@ export default function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(contact),
     });
-    await loadContacts(); // recargar contactos
+    loadContacts(); // recargar contactos
   };
 
   const deleteContact = async (id) => {
