@@ -118,7 +118,7 @@ const handleEdit = async (contact) => {
 };
 
   return (
-    <div>
+    <div className="container">
       <h1 className="title">Gestión de contactos</h1>
       
       <div className={`message success-message ${successMessage ? 'show' : ''}`}>
