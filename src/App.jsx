@@ -180,49 +180,49 @@ const handleEdit = async (contact) => {
   );
 }
 
-import { useEffect, useState } from 'react';
-import ContactForm from './components/ContactForm';
-import ContactList from './components/ContactList';
+// import { useEffect, useState } from 'react';
+// import ContactForm from './components/ContactForm';
+// import ContactList from './components/ContactList';
 
-export default function App() {
-  const [contacts, setContacts] = useState([]);
+// export default function App() {
+//   const [contacts, setContacts] = useState([]);
 
-  // Cargar contactos desde el backend
-  const loadContacts = async () => {
-    const res = await fetch('https://contact-form-backend-.../contacts');
-    const data = await res.json();
-    setContacts(data);
-  };
+//   // Cargar contactos desde el backend
+//   const loadContacts = async () => {
+//     const res = await fetch('https://contact-form-backend-.../contacts');
+//     const data = await res.json();
+//     setContacts(data);
+//   };
 
-  useEffect(() => {
-    loadContacts();
-  }, []);
+//   useEffect(() => {
+//     loadContacts();
+//   }, []);
 
-  // Agregar nuevo contacto y recargar la lista
-  const addContact = async (contact) => {
-    await fetch('https://contact-form-backend-.../contacts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(contact),
-    });
-    loadContacts(); // recargar contactos
-  };
+//   // Agregar nuevo contacto y recargar la lista
+//   const addContact = async (contact) => {
+//     await fetch('https://contact-form-backend-.../contacts', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(contact),
+//     });
+//     loadContacts(); // recargar contactos
+//   };
 
-  const deleteContact = async (id) => {
-    await fetch(`https://contact-form-backend-.../contacts/${id}`, {
-      method: 'DELETE',
-    });
-    await loadContacts();
-  };
+//   const deleteContact = async (id) => {
+//     await fetch(`https://contact-form-backend-.../contacts/${id}`, {
+//       method: 'DELETE',
+//     });
+//     await loadContacts();
+//   };
 
-  return (
-    <div>
-      <h1>Contactos</h1>
-      <ContactForm onAdd={addContact} />
-      <ContactList contacts={contacts} onDelete={deleteContact} />
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <h1>Contactos</h1>
+//       <ContactForm onAdd={addContact} />
+//       <ContactList contacts={contacts} onDelete={deleteContact} />
+//     </div>
+//   );
+// }
 
 
 
