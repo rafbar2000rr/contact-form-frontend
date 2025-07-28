@@ -207,7 +207,7 @@ const handleEdit = async (contact) => {
       <div className={`message error-message ${errorMessage ? 'show' : ''}`}>
         {errorMessage}
       </div>
-      <p>Este es un cambio de prueba Alexia la chica linda</p>
+      <p>Este es un cambio de prueba Alexia</p>
       <ContactForm onAdd={handleAdd} />
       <ContactList contacts={contacts} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
