@@ -195,7 +195,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    await loadContacts();
+    loadContacts();
   }, []);
 
   // Agregar nuevo contacto y recargar la lista
