@@ -31,7 +31,7 @@ export default function ContactForm() {
 
     try {
     
-      const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contact', {
+      const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
