@@ -67,7 +67,7 @@ const handleDelete = async (id) => {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${id}`, {
       method: 'DELETE'
     });
-
+    const data = await res.json();
     if (!res.ok) {
       throw new Error('Error al eliminar el contacto');
     }
@@ -78,7 +78,7 @@ const handleDelete = async (id) => {
     await fetchContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
-    setErrorMessage('No se pudo eliminar el contacto.');
+    setErrorMessage(err.message ||'No se pudo eliminar el contacto.');
     setSuccessMessage('');
     
     setTimeout(() => setErrorMessage(''), 3000);
@@ -86,39 +86,34 @@ const handleDelete = async (id) => {
 };
 
   
-const handleEdit = async (contact) => {
+const handleEdit = async (id, contact) => {
   const newName = prompt('Nuevo nombre:', contact.name);
   if (!newName || newName.trim() === '') return;
 
-  const updated = { ...contact, name: newName.trim() };
-  
+  //const updated = { ...contact, name: newName.trim() };
+
   try {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${contact._id}`, {
 
 
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updated)
+      body: JSON.stringify(updatedData)
     });
-    if (!res.ok) {
-      throw new Error('Error al editar el contacto');
-    }
-    let data = null;
-    try{
-
-    data = await res.json();
-    }catch (jsonError) {
-      console.warn('⚠️ No se pudo convertir la respuesta a JSON:', jsonError.message);
-      data = updated; // Usa el objeto actualizado si falla
-    }
     setContacts(prev => prev.map(c => c._id === contact._id ? data : c));
-    setSuccessMessage('Contacto editado con éxito');
+    const data = await res.json();
+    
+     if (!res.ok) {
+      throw new Error(data.error || 'Error al actualizar');
+    }
+    
+    editSound.play();
+    setSuccessMessage(data.message ||'Contacto actualizado con éxito');
     setErrorMessage('');
     await fetchContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
-     console.error('❌ Error:', err.message);
-    setErrorMessage('No se pudo editar el contacto.');
+    setErrorMessage(err.message || 'No se pudo editar el contacto.');
     setSuccessMessage('');
 
     setTimeout(() => setErrorMessage(''), 3000);
