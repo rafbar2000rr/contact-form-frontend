@@ -88,9 +88,18 @@ const handleDelete = async (id) => {
   
 const handleEdit = async (contact) => {
   const newName = prompt('Nuevo nombre:', contact.name);
-  if (!newName || newName.trim() === '') return;
+  const newEmail = prompt('Nuevo email:', contact.email);
+  const newAddress = prompt('Nueva dirección:', contact.address);
 
-  const updatedData = { ...contact, name: newName.trim() };
+  // if (!newName || newName.trim() === '') return;
+  if (!newName || !newEmail || !newAddress) return;
+  const updatedData = {
+    ...contact,
+    name: newName.trim(),
+    email: newEmail.trim(),
+    address: newAddress.trim(),
+  };
+  
 
   try {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${contact._id}`, {
