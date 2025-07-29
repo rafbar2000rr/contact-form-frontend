@@ -31,7 +31,18 @@ const fetchContacts = async () => {
   setContacts(data);
 };
 
+const onAdd = async (nuevoContacto) => {
+    await fetch('https://contact-form-backend-i5ma.onrender.com/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nuevoContacto)
+    });
 
+    // Aquí puedes agregar un delay si el backend demora
+    setTimeout(() => {
+      cargarContactos();
+    }, 500);
+  };
 
 
   const handleAdd = async (newContact) => {
@@ -136,7 +147,7 @@ const handleEdit = async (contact) => {
       <div className={`message error-message ${errorMessage ? 'show' : ''}`}>
         {errorMessage}
       </div>
-      <ContactForm onAdd={handleAdd} />
+      <ContactForm onAdd={onAdd} />
       <ContactList contacts={contacts} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
   );

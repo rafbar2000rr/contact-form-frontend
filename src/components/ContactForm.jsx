@@ -33,6 +33,7 @@ export default function ContactForm({onAdd}) {
       await onAdd(formData); // ✅ Usa la función del padre
       setSuccessMessage('¡Contacto guardado con éxito!');
       setErrorMessage('');
+      onAdd(formData);
       setFormData({ name: '', email: '', address: '' });
       // const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
 
