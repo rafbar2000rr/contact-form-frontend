@@ -19,6 +19,20 @@ export default function ContactList({ contacts, onEdit, onDelete }) {
   );
 }
 
+// export default function ContactList({ contacts }) {
+//   return (
+//     <div>
+//       <h2>Mensajes recibidos:</h2>
+//       <ul>
+//         {contacts.map(contact => (
+//           <li key={contact._id}>
+//             <strong>{contact.name}</strong> ({contact.email}): {contact.message}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
 
 
 

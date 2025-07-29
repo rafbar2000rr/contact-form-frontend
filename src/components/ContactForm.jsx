@@ -30,7 +30,9 @@ export default function ContactForm() {
     }
 
     try {
-      const res = await fetch('https://contact-form-backend.vercel.app/api/contact', {
+    
+      const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contact', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -83,3 +85,56 @@ export default function ContactForm() {
     </form>
   );
 }
+
+
+// import { useState } from 'react';
+
+// export default function ContactForm({ onAdd }) {
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     email: '',
+//     message: '',
+//   });
+
+//   const handleChange = (e) => {
+//     setFormData({ 
+//       ...formData, 
+//       [e.target.name]: e.target.value 
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     await onAdd(formData); // delega al App.jsx
+//     setFormData({ name: '', email: '', message: '' }); // limpia el formulario
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input 
+//         name="name"
+//         type="text" 
+//         placeholder="Nombre" 
+//         value={formData.name} 
+//         onChange={handleChange} 
+//         required 
+//       />
+//       <input 
+//         name="email"
+//         type="email" 
+//         placeholder="Correo" 
+//         value={formData.email} 
+//         onChange={handleChange} 
+//         required 
+//       />
+//       <textarea 
+//         name="message"
+//         placeholder="Mensaje" 
+//         value={formData.message} 
+//         onChange={handleChange} 
+//         required 
+//       />
+//       <button type="submit">Enviar</button>
+//     </form>
+//   );
+// }

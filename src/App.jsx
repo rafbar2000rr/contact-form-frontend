@@ -127,9 +127,57 @@ const handleEdit = async (contact) => {
       <div className={`message error-message ${errorMessage ? 'show' : ''}`}>
         {errorMessage}
       </div>
-      <ContactForm onAdd={handleAdd} />
+      <ContactForm/>
       <ContactList contacts={contacts} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
   );
 }
 
+// import { useEffect, useState } from 'react';
+// import ContactForm from './ContactForm';
+// import ContactList from './ContactList';
+
+// function App() {
+//   const [contacts, setContacts] = useState([]);
+
+//   const fetchContacts = async () => {
+//     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts');
+//     const data = await res.json();
+//     setContacts(data);
+//   };
+
+//   useEffect(() => {
+//     fetchContacts();
+//   }, []);
+
+//   const handleAdd = async (formData) => {
+//     try {
+//       const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(formData),
+//       });
+
+//       if (!res.ok) {
+//         throw new Error('Error al enviar el formulario');
+//       }
+
+//       const newContact = await res.json();
+//       setContacts([...contacts, newContact]); // actualiza la lista
+//       alert('Mensaje enviado con éxito');
+//     } catch (err) {
+//       console.error(err);
+//       alert('Hubo un error al enviar el mensaje');
+//     }
+//   };
+
+//   return (
+//     <div className="container">
+//       <h1>Contacto</h1>
+//       <ContactForm onAdd={handleAdd} />
+//       <ContactList contacts={contacts} />
+//     </div>
+//   );
+// }
+
+// export default App;
