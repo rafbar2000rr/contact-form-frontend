@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '../styles/form.css';
 
-export default function ContactForm() {
+export default function ContactForm({onAdd}) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,22 +30,25 @@ export default function ContactForm() {
     }
 
     try {
-    
-      const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
+      await onAdd(formData); // ✅ Usa la función del padre
+      setSuccessMessage('¡Contacto guardado con éxito!');
+      setErrorMessage('');
+      setFormData({ name: '', email: '', address: '' });
+      // const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+        // method: 'POST',
+        // headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify(formData),
+      // });
 
-      if (res.ok) {
-        setSuccessMessage('Message sent successfully!');
-        setErrorMessage('');
-        setFormData({ name: '', email: '', address: '' });
-      } else {
-        setErrorMessage('Something went wrong. Please try again later.');
-        setSuccessMessage('');
-      }
+      // if (res.ok) {
+      //   setSuccessMessage('Message sent successfully!');
+
+      //   setErrorMessage('');
+      //   setFormData({ name: '', email: '', address: '' });
+      // } else {
+        
+      
     } catch (err) {
       setErrorMessage('Error connecting to server.');
       setSuccessMessage('');

@@ -25,7 +25,16 @@ useEffect(() => {
     loadContacts();
   }, []);
 
-const handleAdd = async (newContact) => {
+const fetchContacts = async () => {
+  const response = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts');
+  const data = await response.json();
+  setContacts(data);
+};
+
+
+
+
+  const handleAdd = async (newContact) => {
   try {
     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
       method: 'POST',
@@ -72,7 +81,7 @@ const handleDelete = async (id) => {
     setContacts(prev => prev.filter(contact => contact._id !== id));
     setSuccessMessage('Contacto eliminado con éxito');
     setErrorMessage('');
-
+    await fetchContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
     setErrorMessage('No se pudo eliminar el contacto.');
@@ -107,7 +116,7 @@ const handleEdit = async (contact) => {
     setContacts(prev => prev.map(c => c._id === contact._id ? data : c));
     setSuccessMessage('Contacto editado con éxito');
     setErrorMessage('');
-
+    await fetchContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
     setErrorMessage('No se pudo editar el contacto.');
@@ -127,7 +136,7 @@ const handleEdit = async (contact) => {
       <div className={`message error-message ${errorMessage ? 'show' : ''}`}>
         {errorMessage}
       </div>
-      <ContactForm/>
+      <ContactForm onAdd={handleAdd} />
       <ContactList contacts={contacts} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
   );
