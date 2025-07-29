@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import '../styles/form.css';
 
-function ContactForm({ onAdd }) {
+export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    address: ''
+    address: '',
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
-  };
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +21,7 @@ function ContactForm({ onAdd }) {
       return;
     }
 
+    // Validación de correo
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setErrorMessage('Please enter a valid email address');
@@ -33,73 +30,80 @@ function ContactForm({ onAdd }) {
     }
 
     try {
-      await onAdd(formData);
-      setSuccessMessage('Contact saved successfully');
-      setErrorMessage('');
-      setFormData({ name: '', email: '', address: '' });
-    } catch (error) {
-      setErrorMessage('Failed to save contact');
+    
+      const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contact', {
+
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setSuccessMessage('Message sent successfully!');
+        setErrorMessage('');
+        setFormData({ name: '', email: '', address: '' });
+      } else {
+        setErrorMessage('Something went wrong. Please try again later.');
+        setSuccessMessage('');
+      }
+    } catch (err) {
+      setErrorMessage('Error connecting to server.');
       setSuccessMessage('');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form" onSubmit={handleSubmit}>
       <input
         type="text"
         name="name"
-        placeholder="Name"
+        placeholder="Nombre"
         value={formData.name}
-        onChange={handleChange}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        className={!formData.name.trim() && errorMessage ? 'error' : ''}
       />
-
       <input
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder="Correo"
         value={formData.email}
-        onChange={handleChange}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        className={!formData.email.trim() && errorMessage ? 'error' : ''}
       />
-
       <input
         type="text"
         name="address"
-        placeholder="Address"
+        placeholder="Dirección"
         value={formData.address}
-        onChange={handleChange}
+        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+        className={!formData.address.trim() && errorMessage ? 'error' : ''}
       />
+      <button type="submit">Agregar</button>
 
-      <button type="submit">Submit</button>
-
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
     </form>
   );
 }
 
-export default ContactForm;
 
 
+// import React, { useState } from 'react';
 
-
-
-
-
-
-
-
-// import { useState } from 'react';
-// import '../styles/form.css';
-
-// export default function ContactForm() {
+// function ContactForm({ onAdd }) {
 //   const [formData, setFormData] = useState({
 //     name: '',
 //     email: '',
-//     address: '',
+//     address: ''
 //   });
 
-//   const [errorMessage, setErrorMessage] = useState('');
 //   const [successMessage, setSuccessMessage] = useState('');
+//   const [errorMessage, setErrorMessage] = useState('');
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData(prevData => ({ ...prevData, [name]: value }));
+//   };
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
@@ -111,7 +115,6 @@ export default ContactForm;
 //       return;
 //     }
 
-//     // Validación de correo
 //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 //     if (!emailRegex.test(formData.email)) {
 //       setErrorMessage('Please enter a valid email address');
@@ -120,60 +123,58 @@ export default ContactForm;
 //     }
 
 //     try {
-    
-//       const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contact', {
-
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(formData),
-//       });
-
-//       if (res.ok) {
-//         setSuccessMessage('Message sent successfully!');
-//         setErrorMessage('');
-//         setFormData({ name: '', email: '', address: '' });
-//       } else {
-//         setErrorMessage('Something went wrong. Please try again later.');
-//         setSuccessMessage('');
-//       }
-//     } catch (err) {
-//       setErrorMessage('Error connecting to server.');
+//       await onAdd(formData);
+//       setSuccessMessage('Contact saved successfully');
+//       setErrorMessage('');
+//       setFormData({ name: '', email: '', address: '' });
+//     } catch (error) {
+//       setErrorMessage('Failed to save contact');
 //       setSuccessMessage('');
 //     }
 //   };
 
 //   return (
-//     <form className="form" onSubmit={handleSubmit}>
+//     <form onSubmit={handleSubmit}>
 //       <input
 //         type="text"
 //         name="name"
-//         placeholder="Nombre"
+//         placeholder="Name"
 //         value={formData.name}
-//         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-//         className={!formData.name.trim() && errorMessage ? 'error' : ''}
+//         onChange={handleChange}
 //       />
+
 //       <input
 //         type="email"
 //         name="email"
-//         placeholder="Correo"
+//         placeholder="Email"
 //         value={formData.email}
-//         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-//         className={!formData.email.trim() && errorMessage ? 'error' : ''}
+//         onChange={handleChange}
 //       />
+
 //       <input
 //         type="text"
 //         name="address"
-//         placeholder="Dirección"
+//         placeholder="Address"
 //         value={formData.address}
-//         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-//         className={!formData.address.trim() && errorMessage ? 'error' : ''}
+//         onChange={handleChange}
 //       />
-//       <button type="submit">Agregar</button>
 
-//       {errorMessage && <p className="error-message">{errorMessage}</p>}
-//       {successMessage && <p className="success-message">{successMessage}</p>}
+//       <button type="submit">Submit</button>
+
+//       {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+//       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 //     </form>
 //   );
 // }
+
+// export default ContactForm;
+
+
+
+
+
+
+
+
 
 
