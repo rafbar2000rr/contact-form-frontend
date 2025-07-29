@@ -27,7 +27,6 @@ useEffect(() => {
 
 
 
-
   const handleAdd = async (newContact) => {
   try {
     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
@@ -63,19 +62,20 @@ useEffect(() => {
   
 
 const handleDelete = async (id) => {
+  if (!window.confirm('¿Seguro que deseas eliminar este contacto?')) return;
   try {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${id}`, {
       method: 'DELETE'
     });
     const data = await res.json();
     if (!res.ok) {
-      throw new Error('Error al eliminar el contacto');
+      throw new Error(data.error || 'Error al eliminar');
     }
     deleteSound.play();
-    setContacts(prev => prev.filter(contact => contact._id !== id));
-    setSuccessMessage('Contacto eliminado con éxito');
+    // setContacts(prev => prev.filter(contact => contact._id !== id));
+    setSuccessMessage(data.message || 'Contacto eliminado con éxito');
     setErrorMessage('');
-    await fetchContacts(); // 🔄 Actualiza la lista
+    await loadContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
     setErrorMessage(err.message ||'No se pudo eliminar el contacto.');
@@ -90,7 +90,7 @@ const handleEdit = async (id, contact) => {
   const newName = prompt('Nuevo nombre:', contact.name);
   if (!newName || newName.trim() === '') return;
 
-  //const updated = { ...contact, name: newName.trim() };
+  const updatedData = { ...contact, name: newName.trim() };
 
   try {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${contact._id}`, {
@@ -100,7 +100,7 @@ const handleEdit = async (id, contact) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedData)
     });
-    setContacts(prev => prev.map(c => c._id === contact._id ? data : c));
+    // setContacts(prev => prev.map(c => c._id === contact._id ? data : c));
     const data = await res.json();
     
      if (!res.ok) {
@@ -110,7 +110,7 @@ const handleEdit = async (id, contact) => {
     editSound.play();
     setSuccessMessage(data.message ||'Contacto actualizado con éxito');
     setErrorMessage('');
-    await fetchContacts(); // 🔄 Actualiza la lista
+    await loadContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
   } catch (err) {
     setErrorMessage(err.message || 'No se pudo editar el contacto.');
@@ -119,6 +119,7 @@ const handleEdit = async (id, contact) => {
     setTimeout(() => setErrorMessage(''), 3000);
   }
 };
+
 
   return (
     <div className="container">
