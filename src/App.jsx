@@ -86,7 +86,7 @@ const handleDelete = async (id) => {
 };
 
   
-const handleEdit = async (id, contact) => {
+const handleEdit = async (contact) => {
   const newName = prompt('Nuevo nombre:', contact.name);
   if (!newName || newName.trim() === '') return;
 
