@@ -71,9 +71,10 @@ const handleDelete = async (id) => {
     if (!res.ok) {
       throw new Error(data.error || 'Error al eliminar');
     }
-    deleteSound.play();
+    
     // setContacts(prev => prev.filter(contact => contact._id !== id));
     setSuccessMessage(data.message || 'Contacto eliminado con éxito');
+    deleteSound.play();
     setErrorMessage('');
     await loadContacts(); // 🔄 Actualiza la lista
     setTimeout(() => setSuccessMessage(''), 3000);
