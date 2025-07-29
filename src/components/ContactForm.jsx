@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '../styles/form.css';
 
-export default function ContactForm({onAdd}) {
+export default function ContactForm({handleAdd}) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,7 +33,7 @@ export default function ContactForm({onAdd}) {
       await onAdd(formData); // ✅ Usa la función del padre
       setSuccessMessage('¡Contacto guardado con éxito!');
       setErrorMessage('');
-      onAdd(formData);
+      handleAdd(formData);
       setFormData({ name: '', email: '', address: '' });
       // const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
 
