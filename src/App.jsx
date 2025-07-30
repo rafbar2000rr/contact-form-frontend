@@ -26,9 +26,20 @@ useEffect(() => {
     loadContacts();
   }, []);
 
+const showSuccess = (msg) => {
+  setSuccessMessage(msg);
+  setErrorMessage('');
+  setTimeout(() => setSuccessMessage(''), 3000);
+};
+
+const showError = (msg) => {
+  setErrorMessage(msg);
+  setSuccessMessage('');
+  setTimeout(() => setErrorMessage(''), 3000);
+};
 
 
-  const handleAdd = async (newContact) => {
+const handleAdd = async (newContact) => {
   try {
     const res = await fetch('https://contact-form-backend-i5ma.onrender.com/api/contacts', {
       method: 'POST',
@@ -47,20 +58,12 @@ useEffect(() => {
     setTimeout(() => {
       loadContacts(); // 🔁 Recarga toda la lista después de 1 seg
     }, 1000);
-
-    setSuccessMessage('¡Contacto guardado con éxito!');
-    setErrorMessage('');
-
-    setTimeout(() => setSuccessMessage(''), 3000);
+    showSuccess('¡Contacto guardado con éxito!');
+  
   } catch (err) {
-    setErrorMessage('No se pudo guardar el contacto. Inténtalo de nuevo.');
-    setSuccessMessage('');
-
-    setTimeout(() => setErrorMessage(''), 3000);
+    showError('No se pudo editar el contacto');
   }
 };
-
-  
 
 const handleDelete = async (id) => {
   if (!window.confirm('¿Seguro que deseas eliminar este contacto?')) return;
@@ -74,26 +77,20 @@ const handleDelete = async (id) => {
     }
     
     // setContacts(prev => prev.filter(contact => contact._id !== id));
-    setSuccessMessage(data.message || 'Contacto eliminado con éxito');
+    showSuccess(data.message || 'Contacto eliminado con éxito');
     deleteSound.play();
-    setErrorMessage('');
     await loadContacts(); // 🔄 Actualiza la lista
-    setTimeout(() => setSuccessMessage(''), 3000);
-  } catch (err) {
-    setErrorMessage(err.message ||'No se pudo eliminar el contacto.');
-    setSuccessMessage('');
     
-    setTimeout(() => setErrorMessage(''), 3000);
+  } catch (err) {
+    showError(err.message ||'No se pudo eliminar el contacto.');
   }
 };
 
-  
 const handleEdit = async (contact) => {
   const newName = prompt('Nuevo nombre:', contact.name);
   const newEmail = prompt('Nuevo email:', contact.email);
   const newAddress = prompt('Nueva dirección:', contact.address);
 
-  // if (!newName || newName.trim() === '') return;
   if (!newName || !newEmail || !newAddress) return;
   const updatedData = {
     ...contact,
@@ -101,34 +98,23 @@ const handleEdit = async (contact) => {
     email: newEmail.trim(),
     address: newAddress.trim(),
   };
-  
-
   try {
     const res = await fetch(`https://contact-form-backend-i5ma.onrender.com/api/contacts/${contact._id}`, {
-
-
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedData)
     });
-    // setContacts(prev => prev.map(c => c._id === contact._id ? data : c));
     const data = await res.json();
-    
-     if (!res.ok) {
+    if (!res.ok) {
       throw new Error(data.error || 'Error al actualizar');
     }
     
     editSound.play();
-    setSuccessMessage(data.message ||'Contacto actualizado con éxito');
-    setErrorMessage('');
+    showSuccess(data.message || 'Contacto actualizado con éxito');
     await loadContacts(); // 🔄 Actualiza la lista
-    setTimeout(() => setSuccessMessage(''), 3000);
-  } catch (err) {
-    setErrorMessage(err.message || 'No se pudo editar el contacto.');
-    setSuccessMessage('');
-
-    setTimeout(() => setErrorMessage(''), 3000);
-  }
+    } catch (err) {
+    showError(err.message ||'No se pudo editar el contacto.');
+    }
 };
 
 
