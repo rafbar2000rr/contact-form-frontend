@@ -3,8 +3,9 @@ import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import "./styles/App.css";
 import deleteSoundFile from '../assets/sounds/delete.mp3';
-const deleteSound = new Audio(deleteSoundFile); // ruta si está en public
-
+const deleteSound = new Audio(deleteSoundFile); 
+import editSoundFile from '../assets/sounds/edit.mp3';
+const editSound = new Audio(editSoundFile);
 
 export default function App() {
   const [contacts, setContacts] = useState([]);
