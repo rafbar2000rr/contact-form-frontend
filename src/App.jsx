@@ -53,11 +53,11 @@ const handleAdd = async (newContact) => {
 
     const savedContact = await res.json();
     console.log('Respuesta del backend:', savedContact);
-
-    // 🕒 Esperar 1 segundo antes de recargar la lista
-    setTimeout(() => {
-      loadContacts(); // 🔁 Recarga toda la lista después de 1 seg
-    }, 1000);
+    loadContacts();
+    // // 🕒 Esperar 1 segundo antes de recargar la lista
+    // setTimeout(() => {
+    //   loadContacts(); // 🔁 Recarga toda la lista después de 1 seg
+    // }, 1000);
     showSuccess('¡Contacto guardado con éxito!');
   
   } catch (err) {
